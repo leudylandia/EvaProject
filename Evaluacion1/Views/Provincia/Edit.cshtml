@@ -1,0 +1,28 @@
+﻿@model ProvinciaViewModel
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h2>Editar</h2>
+
+<form asp-action="Edit" asp-controller="Provincia" method="post">
+    <div class="row">
+        <input type="hidden" asp-for="Provincia.Id" />
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Provincia.Name" class="control-label"></label>
+                <input asp-for="Provincia.Name" class="form-control" placeholder="Provincia" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Provincia.PaisId" class="control-label"></label>
+                <select asp-for="Provincia.PaisId" asp-items="@(new SelectList(Model.Pais, "Id", "Name"))" class="form-control"></select>
+            </div>
+
+            <input type="submit" class="btn btn-dark" value="Guardar" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-controller="Provincia" class="btn btn-link">Regresar al listado</a>
+</div>

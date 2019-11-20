@@ -1,0 +1,12 @@
+﻿@model ProvinciaViewModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2><icon class="glyphicon glyphicon-remove-circle"></icon>Estas seguro que deseas eliminar a <k>@Model.Provincia.Name</k></h2>
+
+<form asp-action="Delete" asp-controller="Provincia" method="post">
+    <input type="hidden" asp-for="Provincia.Id" a />
+    <input type="submit"  value="Elimina" class="btn btn-danger" />
+</form>
+

@@ -1,0 +1,99 @@
+﻿@model PaisViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Nuevo Pais</h2>
+
+<form id="frm-pais" asp-action="Create" asp-controller="Pais" method="post">
+    <div class="form-group">
+        <label asp-for="Pais.Name"></label>
+        <input type="text" asp-for="Pais.Name" class="form-control" placeholder="Nombre del pais" />
+        <span asp-validation-for="Pais.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pais.Continente"></label>
+        <input id="continente" type="text" asp-for="Pais.Continente" class="form-control" placeholder="Continente al que pertenece" />
+        <span asp-validation-for="Pais.Continente" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Guardar" />
+    <input id="msj" type="button" name="name" value="Msj" />
+</form>
+
+<button class="btn btn-danger" id="mostrar">Modal</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalPais" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Pais</h4>
+            </div>
+            <form id="frm-pais2" asp-action="Create" asp-controller="Pais" method="post">
+                <div class="modal-body">
+                    @*<form id="frm-pais" asp-action="Create" asp-controller="Pais" method="post">*@
+                    <div class="form-group">
+                        <label asp-for="Pais.Name"></label>
+                        <input type="text" asp-for="Pais.Name" class="form-control" placeholder="Nombre del pais" />
+                        <span asp-validation-for="Pais.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pais.Continente"></label>
+                        <input id="continente2" type="text" asp-for="Pais.Continente" class="form-control" placeholder="Continente al que pertenece" />
+                        <span asp-validation-for="Pais.Continente" class="text-danger"></span>
+                    </div>
+
+
+            @*</form>*@
+        </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+                <input id="msj" type="button" name="name" value="Msj" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#msj').on('click', function () {
+                swal("Good job!", "You clicked the button!", "info");
+                swal("Gracias!", "Gracias, por darme la oportunidad de demostrar mis conocimientos!");
+            });
+
+            //alert('Favor de completar todo');
+            $('#continente').val('America');
+
+            $('#frm-pais').submit(function (e) {
+
+                if (!$('#continente').val()) {
+
+                    swal("Error!", "Favor de completar todo!", "error");
+                    e.preventDefault();
+                }
+                //alert('Favor de completar todo');
+
+            });
+
+            $('#mostrar').click(function () {
+                $('#modalPais').modal('show');
+
+            });
+        });
+    </script>
+}
+

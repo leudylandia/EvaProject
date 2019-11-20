@@ -1,0 +1,79 @@
+﻿@model IEnumerable<PersonaViewModel>
+
+@{
+    ViewData["Title"] = "Personas";
+}
+
+
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<h2>Listado de Personas</h2>
+<a asp-action="Create" asp-controller="Personas" class="btn btn-info">Crear Nuevo</a><br /><br />
+
+<form asp-action="GetPersonaCedula" asp-controller="Personas" method="get">
+    <div class="row form-group">
+        <div class="col-md-6">
+            <label class="control-label">Filtrar:</label>
+            <input type="text" id="texto" name="Ced" class="form-control" placeholder="Buscar persona" value="@ViewData["Filtro"]" /><br />
+            <input type="submit" class="btn btn-default" value="Buscar" />
+            <a asp-action="Index">Todos los registros</a>
+        </div>
+    </div>
+</form>
+
+@using (Html.BeginForm("GetPersonaCedula", "Personas", FormMethod.Get))
+{
+<div class="row form-group">
+    <div class="col-md-6">
+        <label class="control-label">Filtrar:</label>
+        <input type="text" id="texto" name="Ced" class="form-control" placeholder="Buscar persona" value="@ViewData["Filtro"]" /><br />
+        <input type="submit" class="btn btn-default" value="Buscar" />
+        @Html.ActionLink("Todos los registros", "Index", "Presonas")
+    </div>
+</div>
+}
+
+
+<table class="table table-hover" id="myTable">
+    <thead>
+        <tr>
+            <th>Apellido</th>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>Fecha Nacimiento</th>
+            <th>Lugar de Procedencia</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Persona.Apellido</td>
+                <td>@item.Persona.Nombre</td>
+                <td>@item.Persona.Cedula</td>
+                <td>@item.Persona.FechaNacimiento</td>
+                <td>@item.Persona.Provincia.Name, @item.Persona.Provincia.Pais.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Personas" class="btn btn-primary" asp-route-id="@item.Persona.Id">Editar</a> |
+                    <a asp-action="Delete" asp-controller="Personas" class="btn btn-warning" asp-route-id="@item.Persona.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@section Scripts
+    {
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}

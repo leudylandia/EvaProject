@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ProvinciaViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Provincia MVC</h2>
+
+ @Html.ActionLink("Nuevo", "Create", "ProvinciaMVC", htmlAttributes: new { @class="btn btn-primary"})
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <th>Continente</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Provincia.Name</td>
+            <td>@item.Provincia.Pais.Name</td>
+            <td>@item.Provincia.Pais.Continente</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", "ProvinciaMVC",  new { id = item.Provincia.Id}) |
+                @Html.ActionLink("Eliminar", "Delete", "ProvinciaMVC", new { id = item.Provincia.Id})
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+

@@ -1,0 +1,47 @@
+﻿@model PaisViewModel
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h2>@Model.Pais.Name</h2>
+
+<div class="row">
+    <ul>
+        @foreach (var item in Model.Pais.Provincia)
+        {
+            <li class="list-group-item col-md-3">@item.Name</li>
+        }
+    </ul>
+</div>
+<br />
+<hr />
+
+<table id="ciudad">
+    <thead>
+        <tr>
+            <th>Ciudades</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Pais.Provincia)
+        {
+            <tr>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+
+@section Scripts{ 
+<script>
+    $(document).ready(function () {
+        $('#ciudad').DataTable();
+    });
+</script>
+}
+

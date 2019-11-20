@@ -1,0 +1,23 @@
+﻿@model PaisViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Editar</h2>
+
+<form asp-action="Edit" asp-controller="Pais" method="post">
+    <input type="hidden" asp-for="Pais.Id"  />
+    <div class="form-group">
+        <label asp-for="Pais.Name"></label>
+        <input type="text" asp-for="Pais.Name" class="form-control" placeholder="Nombre del pais" />
+        <span asp-validation-for="Pais.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pais.Continente"></label>
+        <input type="text" asp-for="Pais.Continente" class="form-control" placeholder="Continente al que pertenece" />
+        <span asp-validation-for="Pais.Continente" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Guardar" />
+</form>
+

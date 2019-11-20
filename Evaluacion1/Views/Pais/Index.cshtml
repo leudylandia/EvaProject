@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PaisViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Listado de paises</h2>
+<br />
+
+<a asp-action="Create" asp-controller="Pais" class="btn btn-info">
+    Nuevo
+</a>
+
+<table id="pais" class="1table 1table-hover">
+    <thead>
+        <tr>
+            <th>Pais</th>
+            <th>Continente</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Pais.Name</td>
+                <td>@item.Pais.Continente</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Pais" class="btn btn-primary" asp-route-id="@item.Pais.Id">Editar</a> |
+                    <a asp-action="Detail" asp-controller="Pais" class="btn btn-default" asp-route-id="@item.Pais.Id">Detalle</a> |
+                    <a asp-action="Delete" asp-controller="Pais" class="btn btn-warning" asp-route-id="@item.Pais.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@section Scripts{
+    @*<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('#pais').DataTable();
+        });
+    </script>
+}
+

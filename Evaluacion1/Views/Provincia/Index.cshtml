@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ProvinciaViewModel>
+@{
+    ViewData["Title"] = "Provincia";
+}
+
+<h2>Listado de Provincias</h2>
+
+<a asp-action="Create" asp-controller="Provincia" class="btn btn-info">Crear Nuevo</a>
+
+<table id="provincia" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Provincia</th>
+            <th>Pais</th>
+            <th>Continente</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Provincia.Name</td>
+                <td>@item.Provincia.Pais.Name</td>
+                <td>@item.Provincia.Pais.Continente</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Provincia" asp-route-id="@item.Provincia.Id" class="btn btn-primary">Editar</a> | 
+                    <a asp-action="Delete" asp-controller="Provincia" asp-route-id="@item.Provincia.Id" class="btn btn-warning">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $('#provincia').DataTable();
+
+        });
+    </script>
+}

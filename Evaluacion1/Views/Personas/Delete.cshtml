@@ -1,0 +1,13 @@
+﻿@model PersonaViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2><icon class="glyphicon glyphicon-remove-circle"></icon>Estas seguro que deseas eliminar a <k>@Model.Persona.Nombre @Model.Persona.Apellido</k></h2>
+
+<form asp-action="Delete" asp-controller="Personas" method="post">
+    <span asp-validation-for="Persona.Id" type="hidden"></span>
+    <input onclick="return confirm('Segruo que deseas eliminar el registro?');" type="submit" class="btn btn-danger"  value="Eliminar" />
+</form>
+

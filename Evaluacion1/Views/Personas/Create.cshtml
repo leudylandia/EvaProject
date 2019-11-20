@@ -1,0 +1,155 @@
+﻿@model PersonaViewModel
+
+@{
+    ViewData["Title"] = "Crear Nuevo";
+}
+
+<h2>Crear Nuevo</h2>
+
+<form asp-action="Create" asp-controller="Personas" id="frm-persona" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Persona.Nombre" class="control-label"></label>
+                <input asp-for="Persona.Nombre" class="form-control" id="nombre" placeholder="Nombre" />
+                <span asp-validation-for="Persona.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Persona.Apellido" class="control-label"></label>
+                <input asp-for="Persona.Apellido" class="form-control" id="apellido" placeholder="Apellidos" />
+                <span asp-validation-for="Persona.Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Persona.Cedula" class="control-label"></label>
+                <input asp-for="Persona.Cedula" class="form-control" id="cedula" placeholder="Cédula" />
+                <span asp-validation-for="Persona.Cedula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Persona.FechaNacimiento" class="control-label"></label>
+                <input asp-for="Persona.FechaNacimiento" type="date" id="nacimiento" class="form-control" value="" />
+                <span asp-validation-for="Persona.FechaNacimiento" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="Persona.ProvinciaId" class="control-label"></label>
+                    <select class="form-control" asp-for="Persona.ProvinciaId" asp-items="@(new SelectList(Model.Provincia, "Id", "Name"))"></select>
+                    <span asp-validation-for="Persona.ProvinciaId" class="text-danger"></span>
+
+                </div>*@
+            <hr />
+            <h2>Prueba</h2>
+            <div class="form-group">
+                <label asp-for="Persona.Provincia.Pais" class="control-label"></label>
+                <select id="paisDDL" class="form-control" asp-items="@(new SelectList(Model.PaisDDL, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Persona.ProvinciaId" class="control-label"></label>
+                <select class="form-control provinciaDDL" asp-for="Persona.ProvinciaId" asp-items="@(new SelectList(string.Empty, "value", "text"))"></select>
+                <span asp-validation-for="Persona.ProvinciaId" class="text-danger"></span>
+            </div>
+
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <input type="button" id="msj" value="Click" onclick="" class="btn btn-default" />
+            <a id="aja" onclick='mensaje()' class="btn btn-default">Me Gusta</a>
+        </div>
+
+    </div>
+</form>
+<a id="aja" onclick='mensaje()' class="btn btn-default">Me Gusta</a>
+<a id="aja" onclick='PaisForm()' class="btn btn-default">Mostrar Form</a>
+
+<div>
+    <a asp-action="Index" asp-controller="Personas" class="btn btn-secondary">Regresar al listado</a>
+</div>
+
+<div id="pais">
+
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#Persona_ProvinciaId').hide();
+
+            //swal('Oops!', 'Debe completar todos los campos', 'info');
+
+            $('#frm-persona').submit(function (e) {
+
+                //Validacion de lado cliente
+                if ($('#nombre').val() === '' || $('#apellido').val() === '' || $('#cedula').val() === '' || $('#Persona_ProvinciaId').val() === null) {
+                    swal('Oops!', 'Debe completar todos los campos', 'info');
+                    e.preventDefault();
+                }
+            });
+
+            //console.log($('#Persona_ProvinciaId').val());
+
+            $('#paisDDL').change(function () {
+                $('#Persona_ProvinciaId').empty();
+                $('#Persona_ProvinciaId').show();
+                var items = '<option>Select a State</option>';
+
+                //$('#provincia').html(items);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Personas/GetProvincias',
+                    dataType: 'json',
+                    data: { id: $('#paisDDL').val(), 'Persona.Cedula': $('#cedula').val(), 'Persona.ProvinciaId' : $('#Persona_ProvinciaId').val()}, //El segundo datos era provando enviando informacion a ver klk y si funciona
+                    success: function (personaVM) {
+                        $.each(personaVM, function (i, dato) {
+                            //console.log(dato);
+                           //console.log(dato.id + ' ' + dato.name);
+                            $('#Persona_ProvinciaId').append('<option value="' + dato.id + '">' + dato.name + '</option>');
+                        });
+                    }
+
+                });
+
+            });
+
+
+            //Esto fue de prueba, tambien el metodo o action en el controlador
+            $('#Persona_ProvinciaId').change(function () {
+               // swal('Oops!', 'Debe completar todos los campos', 'info');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Personas/GetProvincias2',
+                    dataType: 'json',
+                    data: { 'Persona.Cedula': $('#cedula').val(), 'Persona.ProvinciaId': $('#Persona_ProvinciaId').val() },
+                    success: function (personaVM) {
+                        //swal('Welcome!', 'Todo pasó bien', 'success');
+
+                    }
+                });
+            });
+
+            function mensaje2() {
+                swal('Gracias!', 'Ha dado me gusta', 'success');
+
+            }
+
+        });
+
+        function mensaje() {
+            swal('Gracias!', 'Ha dado me gusta', 'success');
+
+        }
+
+        function PaisForm() {
+            $.ajax({
+                type: 'GET',
+                url: '/Pais/Create',
+                success: function (response) {
+                    $('#pais').html(response);
+
+                }
+
+            });
+
+        }
+    </script>
+}

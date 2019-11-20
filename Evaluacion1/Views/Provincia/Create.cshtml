@@ -1,0 +1,44 @@
+﻿@model ProvinciaViewModel
+
+@{
+    ViewData["Title"] = "Crear Nuevo";
+}
+
+<h2>Crear Nuevo</h2>
+
+<form id="frm-provincia" asp-action="Create" asp-controller="Provincia" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Provincia.Name" id="name" class="control-label"></label>
+                <input asp-for="Provincia.Name" class="form-control" placeholder="Provincia" />
+                <span asp-validation-for="Provincia.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provincia.PaisId" class="control-label"></label>
+                <select asp-for="Provincia.PaisId" asp-items="@(new SelectList(Model.Pais, "Id", "Name"))" class="form-control"></select>
+            </div>
+
+            <input type="submit" class="btn btn-dark" value="Crear" />
+        </div>  
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-controller="Provincia" class="btn btn-secondary">Regresar al listado</a>
+</div>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+
+            $('#frm-provincia').submit(function (e) {
+                if (!$('#name').val()) {
+                    swal('Oops!', 'Debes completar los campos', 'warning');
+                    e.preventDefault();
+
+                }
+             });
+        });
+    </script>
+}
